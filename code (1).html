@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Fun font */
+            text-align: center;
+            background: linear-gradient(45deg, #ffe6f2, #ffccdd, #ffb3ba); /* Gradient background */
+            background-size: 400% 400%; /* For animation */
+            animation: gradientShift 5s ease infinite; /* Animated background */
+            padding: 50px;
+            transition: background-color 0.5s;
+            overflow: hidden; /* Prevent scrollbars from button movement */
+        }
+        h1 {
+            color: #d63384;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Shadow for depth */
+            animation: bounce 2s infinite; /* Bouncing title */
+        }
+        .buttons {
+            margin-top: 30px;
+        }
+        button {
+            padding: 15px 30px; /* Bigger buttons */
+            font-size: 20px;
+            margin: 10px;
+            border: 3px solid #fff; /* White border */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth transitions */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Shadow */
+        }
+        #yes {
+            background-color: #28a745;
+            color: white;
+        }
+        #yes:hover {
+            background-color: #218838; /* Darker on hover */
+            transform: scale(1.1); /* Grow on hover */
+        }
+        #no {
+            background-color: #dc3545;
+            color: white;
+            position: relative;
+            min-width: 80px;
+            animation: pulse 1s infinite; /* Pulsing effect */
+        }
+        #no:hover {
+            background-color: #c82333; /* Darker on hover */
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Will You Be My Valentine?</h1>
+    <p>Click Yes to say yes! 💖</p>
+    <div class="buttons">
+        <button id="yes">Yes</button>
+        <button id="no">No</button>
+    </div>
+    <p id="message" style="display: none; color: #28a745; font-size: 24px; font-weight: bold;">Yay! You said yes! 💕🎉</p>
+
+    <script>
+        const noButton = document.getElementById('no');
+        const yesButton = document.getElementById('yes');
+        const message = document.getElementById('message');
+        const body = document.body;
+
+        // Expanded array of words to cycle through for the No button
+        const noWords = [
+            "No", "Stop", "Not yet", "Try again", "Nope", "Keep going", "Almost!", "Nice try",
+            "Really?", "Come on!", "You're joking", "Think again", "Nah", "Not happening", "Dream on",
+            "Too slow", "Missed it", "One more time", "Patience!", "So close", "Epic fail", "LOL no",
+            "Denied", "Access blocked", "Error 404", "System overload", "Try harder", "Not today",
+            "Maybe later", "Keep dreaming", "Nope nope nope", "Resistance is futile", "Game over"
+        ];
+        let wordIndex = 0;
+
+        // Array of colors for background changes
+        const colors = ["#ffe6f2", "#ffccdd", "#ffb3ba", "#ff9999", "#ff8080", "#ff6666", "#ff4d4d"];
+
+        // Function to move the No button randomly on hover, change text, size, and add effects
+        noButton.addEventListener('mouseover', () => {
+            // Random position
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 120);
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+            noButton.style.position = 'absolute';
+
+            // Change the button text
+            wordIndex = (wordIndex + 1) % noWords.length;
+            noButton.textContent = noWords[wordIndex];
+
+            // Randomly change button size (shrink/grow it)
+            const randomSize = Math.random() * 0.8 + 0.3; // Between 0.3 and 1.1
+            noButton.style.transform = `scale(${randomSize})`;
+
+            // Change background color randomly
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            body.style.backgroundColor = randomColor;
+
+            // Add shake and spin effects randomly
+            const effects = ['shake', 'spin'];
+            const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+            noButton.style.animation = `${randomEffect} 0.5s`;
+            setTimeout(() => {
+                noButton.style.animation = '';
+            }, 500);
+        });
+
+        // Reset button size on mouseout
+        noButton.addEventListener('mouseout', () => {
+            noButton.style.transform = 'scale(1)';
+        });
+
+        // Show message on Yes click
+        yesButton.addEventListener('click', () => {
+            message.style.display = 'block';
+            noButton.style.display = 'none'; // Hide No button after Yes is clicked
+            body.style.backgroundColor = '#ffe6f2'; // Reset background
+        });
+    </script>
+</body>
+</html>
